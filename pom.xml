@@ -1,0 +1,188 @@
+<!--
+
+    Copyright (C) 2013 Bouygues Telecom (cynoffic@bouyguestelecom.fr)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.jenkins-ci.plugins</groupId>
+		<artifactId>plugin</artifactId>
+		<version>1.468</version>
+	</parent>
+
+	<groupId>com.bouygtel</groupId>
+	<artifactId>jenkins-redmine-plugin</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>hpi</packaging>
+
+	<name>Jenkins Redmine Plugin</name>
+	<description>Delegates authentication to Redmine</description>
+
+	<inceptionYear>2013</inceptionYear>
+
+	<organization>
+		<name>Bouygues Telecom</name>
+		<url>http://www.bouyguestelecom.fr</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>rjolly</id>
+			<name>Raphael Jolly</name>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>Apache License 2.0</name>
+			<url>http://www.spdx.org/licenses/Apache-2.0</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git://maven-bss.dev.dolmen.bouyguestelecom.fr/jenkins-redmine-plugin.git</connection>
+		<developerConnection>scm:git:ssh://maven-bss.dev.dolmen.bouyguestelecom.fr:29418/jenkins-redmine-plugin.git</developerConnection>
+		<url>http://maven-bss.dev.dolmen.bouyguestelecom.fr/gerrit/gitweb?p=jenkins-redmine-plugin.git</url>
+		<tag>sonar-redmine-plugin-1.0</tag>
+	</scm>
+
+	<issueManagement>
+		<system>Redmine</system>
+		<url>http://redmine.dev.dolmen.bouyguestelecom.fr/projects/jenkins-redmine-plugin</url>
+	</issueManagement>
+
+	<distributionManagement>
+		<site>
+			<id>serveur-doc</id>
+			<url>dav:http://maven-bss.dev.dolmen.bouyguestelecom.fr/doc/jenkins-redmine-plugin/${project.version}/</url>
+		</site>
+		<repository>
+			<id>internal</id>
+			<url>http://maven-bss.dev.dolmen.bouyguestelecom.fr:8081/nexus/content/repositories/livrable-bss</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<uniqueVersion>false</uniqueVersion>
+			<url>http://maven-bss.dev.dolmen.bouyguestelecom.fr:8081/nexus/content/repositories/snaphot-bss</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>snapshots</id>
+			<name>Depot interne (snapshot)</name>
+			<url>http://maven-bss.dev.dolmen.bouyguestelecom.fr:8081/nexus/content/repositories/snaphot-bss</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>repo.jenkins-ci.org</id>
+			<url>http://repo.jenkins-ci.org/public/</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>repo.jenkins-ci.org</id>
+			<url>http://repo.jenkins-ci.org/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<properties>
+		<java.version>1.6</java.version>
+		<encoding>UTF-8</encoding>
+		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+		<maven.compiler.encoding>${encoding}</maven.compiler.encoding>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<pushChanges>false</pushChanges>
+					<localCheckout>true</localCheckout>
+					<connectionUrl>scm:git:file://${basedir}/.git</connectionUrl>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>${encoding}</encoding>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>${encoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+					<properties>
+						<owner>${project.organization.name}</owner>
+						<year>${project.inceptionYear}</year>
+						<email>cynoffic@bouyguestelecom.fr</email>
+					</properties>
+					<excludes>
+						<exclude>**/README</exclude>
+						<exclude>**/LICENSE</exclude>
+						<exclude>src/test/resources/**</exclude>
+						<exclude>src/main/resources/**</exclude>
+						<exclude>src/main/webapp/**</exclude>
+					</excludes>
+					<mapping>
+						<java>DOUBLESLASH_STYLE</java>
+					</mapping>
+				</configuration>
+				<executions>
+					<execution>
+						<id>01-format</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>02-check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+	</dependencies>
+</project>
