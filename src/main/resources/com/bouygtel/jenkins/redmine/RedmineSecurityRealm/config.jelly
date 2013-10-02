@@ -1,0 +1,10 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+    xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+
+    <f:entry title="${%URL}" field="url">
+        <f:textbox name="authenticator.url" value="${instance.url}" default="http://localhost:3000"/>
+    </f:entry>
+    <f:entry title="${%Key}" field="key">
+        <f:password name="authenticator.key" value="${instance.key}"/>
+    </f:entry>
+</j:jelly>
